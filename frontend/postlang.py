@@ -8,13 +8,15 @@ def index():
     return render_template("start.html")
 
 
-@app.route("/send", methods=["POST"])
-def send():#バックにurlで送る
-        language = request.args.get("language")
+@app.route("/sendLang", methods=["POST"])
+def sendLang():#バックにurlで送る
+        language = request.form.get("language")
         
         url="http://localhost:5001/receive"#仮、5173
+        #url="http://localhost:5173/generate_question
         response = requests.post(url, language)
-        return render_template("/input.html")#デバッグ用に表示しているだけ、本来はここいらん
+        return render_template("/input.html")#画面遷移
+
 
 
 

@@ -11,7 +11,7 @@ def receive():
     data = request.get_json()
     language = data.get("language")
     
-    print("受信:", language)
+    #print("受信:", language)
     return jsonify({"status": "ok", "received": language})
 
 if __name__ == "__main__":
