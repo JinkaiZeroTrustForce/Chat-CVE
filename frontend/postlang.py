@@ -7,19 +7,16 @@ app = Flask(__name__)
 def index():
     return render_template("start.html")
 
-
 @app.route("/sendLang", methods=["POST"])
 def sendLang():#バックにurlで送る
         language = request.form.get("language")
         
-        url="http://localhost:5001/receive"#仮、5173
+        url="http://localhost:5000/receive"#仮、5173
         #url="http://localhost:5173/generate_question" #バック送信URL
         params = {"language": language}
     
         response = requests.post(url, params=params)
         return render_template("/input.html")#画面遷移
-
-
 
 
 @app.route("/receive", methods=["GET"])#sendのあと向こうがreceiveに送ってくるはずなので受け取ってinput.html表示
