@@ -13,7 +13,7 @@ def sendLang():#バックにurlで送る
         language = request.form.get("language")
         
         url="http://localhost:5001/receive"#仮、5173
-        #url="http://localhost:5173/generate_question #バック送信URL
+        #url="http://localhost:5173/generate_question" #バック送信URL
         params = {"language": language}
     
         response = requests.post(url, params=params)
@@ -25,6 +25,7 @@ def sendLang():#バックにurlで送る
 @app.route("/receive", methods=["GET"])#sendのあと向こうがreceiveに送ってくるはずなので受け取ってinput.html表示
 def receive():
     data = request.get_json()
+    #data= 適当なjsonを指定#詳しくは調べてください
     # {
     #"level": 1,
     #"language": "php",
