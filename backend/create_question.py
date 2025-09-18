@@ -29,7 +29,7 @@ def chat_with_gpt(system_prompt: str, prompt: str) -> str:
     return text
 
 
-def create_questions(langage: str):
+def create_questions(language: str):
     #　プロンプトが確定次第追加
     user_prompt = ""
     system_prompt = ""

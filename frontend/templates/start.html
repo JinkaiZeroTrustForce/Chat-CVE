@@ -43,6 +43,7 @@
       e.preventDefault();
       const value = this.getAttribute('data-value');
       dropdownButton.textContent = value; 
+      document.getElementById('selectedLanguage').value = value;
   
     });
   });
