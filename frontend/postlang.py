@@ -35,7 +35,22 @@ def receive():
 
     return render_template("/input.html",level=level,question=question)
 
+@app.route("/input", methods=["GET","POST"])
+def input():
 
+    input1 = request.form['where']
+    input2 = request.form['why']
+
+
+    if((input1 and input2)!=null):
+        url="http://localhost:5000/answer"
+        params = {"where": input1,"why":input2}
+        
+        response = requests.post(url, params=params)#jsonで送りたいよね
+        return render_template("/result.html")
+         
+
+    return render_template("/input.html")
 
 if __name__ == "__main__":
      app.run(debug=True)

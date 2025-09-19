@@ -50,3 +50,8 @@
 .form-container button:hover {
   background: #0056b3;
 }
+.button-area{
+  position: fixed;       /* 画面に固定 */
+  left: 50%;             /* 中央寄せ */
+  margin-top: 10px;      /* 上に余白 */
+}
