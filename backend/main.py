@@ -10,7 +10,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",  # local
+        "http://localhost:5000",  # local
     ],
     # allow_origins = [
     #     "*"
@@ -64,9 +64,9 @@ def root():
     return {"status": "ok"}
 
 
-@app.get("/generate_question", response_model=List[GenerateQuestionResponse])
-def generate_scenario(langage: str):
-    questions_response = create_question.create_questions(langage=langage)
+@app.post("/generate_question", response_model=List[GenerateQuestionResponse])
+def generate_scenario(language: str):
+    questions_response = create_question.create_questions(language=language)
     questions_response = TypeAdapter(List[GenerateQuestionResponse]).validate_json(
         questions_response
     )

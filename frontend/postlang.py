@@ -11,9 +11,10 @@ def index():
 def sendLang():#バックにurlで送る
         language = request.form.get("language")
         
-        url="http://localhost:5000/receive"#仮、5173
-        #url="http://localhost:5173/generate_question" #バック送信URL
+        # url="http://localhost:5000/receive"#仮、5173
+        url="http://localhost:3000/generate_question" #バック送信URL
         params = {"language": language}
+        print(params)
     
         response = requests.post(url, params=params)
         return render_template("/input.html")#画面遷移
