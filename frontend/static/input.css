@@ -14,6 +14,9 @@
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    align-self: flex-start;
+ margin-left: 10px;   /* 左にくっつける */
+  margin-right: auto; /* 右に余白を取る（左寄せ） */
   }
  
  .input-area {
@@ -54,4 +57,11 @@
   position: fixed;       /* 画面に固定 */
   left: 50%;             /* 中央寄せ */
   margin-top: 10px;      /* 上に余白 */
+}
+
+.messeage{
+position: fixed;       /* 画面に固定 */      
+  left: 80%;            
+  transform: translateX(-50%); /* 水平方向に中央揃え */
+
 }

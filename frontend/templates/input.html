@@ -12,8 +12,8 @@
 
 <div class="chat-container">
   <div class="chat-messages" id="chat-messages">
-    <div class="message">{{question}}</div>
-    <div class="message">{{level}}</div>
+    <div class="message">{{level}}aaaaaaaaaa</div><!--レベルの表示-->
+    <div class="message"><p> {{ question }}</p></div><!--問題の表示-->
   </div>
 </div>
 
@@ -22,10 +22,10 @@
     <form class="row g-3"action="/input" method="post">
     <input type="text" name="where" class="form-control" id="exampleFormControlInput1" placeholder="どこのコードが脆弱性を持っているか？">
   
-    <input type="text" name="why" class="form-control" id="exampleFormControlInput2" placeholder="どこのコードが脆弱性を持っているか？">
+    <input type="text" name="why" class="form-control" id="exampleFormControlInput2" placeholder="どのような脆弱性か">
 
     <div class-"button-area">
-     <button type="submit" class="btn btn-primary mb-3">Confirm</button>
+     <button type="submit" class="btn btn-primary mb-3">送信</button>
     </div>
       </form>
   </div>

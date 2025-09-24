@@ -11,12 +11,12 @@ def index():
 def sendLang():#バックにurlで送る
         language = request.form.get("language")
         
-        # url="http://localhost:5000/receive"#仮、5173
-        url="http://localhost:3000/generate_question" #バック送信URL
+        url="http://localhost:5000/receive"#仮、5173
+        #url="http://localhost:3000/generate_question" #バック送信URL
         params = {"language": language}
-        print(params)
+        #print(params)
     
-        response = requests.post(url, params=params)
+        #response = requests.post(url, params=params)
         return render_template("/input.html")#画面遷移
 
 
@@ -42,16 +42,21 @@ def input():
     input1 = request.form['where']
     input2 = request.form['why']
 
-
-    if((input1 and input2)!=null):
+    if(input1 and input2):
         url="http://localhost:5000/answer"
         params = {"where": input1,"why":input2}
-        
         response = requests.post(url, params=params)#jsonで送りたいよね
-        return render_template("/result.html")
-         
+    return render_template("/answer.html",where=input1, why=input2)#デバッグ用だからいらん
+    #return ""#本来はこれ
 
-    return render_template("/input.html")
+
+@app.route("/answer", methods=["GET","POST"])#デバッグ用
+def answer():
+
+
+    return ""
+
+
 
 if __name__ == "__main__":
      app.run(debug=True)
