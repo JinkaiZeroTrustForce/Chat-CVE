@@ -20,7 +20,7 @@ def sendLang():#バックにurlで送る
         return render_template("/input.html")#画面遷移
 
 
-@app.route("/receive", methods=["GET"])#sendのあと向こうがreceiveに送ってくるはずなので受け取ってinput.html表示
+@app.route("/receive", methods=["GET","POST"])#sendのあと向こうがreceiveに送ってくるはずなので受け取ってinput.html表示
 def receive():
     #data = request.get_json()
     #------------------------------------------------------------------------------------------------
