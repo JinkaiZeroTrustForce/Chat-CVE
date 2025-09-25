@@ -55,10 +55,8 @@ def input():#入力された情報をバックに送る、
 
 
     if(input1 and input2):
-       
         params = {"where": input1,"why":input2}
        #response = requests.post(url, params=params)#バックにjson
-            
        
     #return render_template("/answer.html",where=input1, why=input2)#デバッグ用だからいらん
     return render_template("/input.html",level=level,question=question)

@@ -36,13 +36,13 @@
 <script>
 document.getElementById("myForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  let where = document.getElementById("exampleFormControlInput1").value;
-  let why = document.getElementById("exampleFormControlInput2").value;
+  let whereInput = document.getElementById("exampleFormControlInput1").value;
+  let whyInput = document.getElementById("exampleFormControlInput2").value;
 
   document.getElementById("result").innerHTML = `
   <div class="submitted-messege"> 
-    <p>${where}</p>
-    <p> ${why}</p>
+    <p>${whereInput}</p>
+    <p>${whyInput}</p>
   </div>
     `;
 });

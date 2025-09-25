@@ -7,11 +7,12 @@
     padding: 20px;
   }
   .chat-container {
-    width: 400px;
+    width: fit-content;
     max-width: 100%;
     background-color: #ffffff;
     border-radius: 10px;
     display: flex;
+    text-align: center;
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     align-self: flex-start;
@@ -37,7 +38,7 @@
 }
 
 .form-container input {
-  flex: 1;               /* 横幅いっぱい */
+  flex: 1;              
   padding: 8px;
   border: 1px solid #ccc;
 }
@@ -60,9 +61,9 @@
 }
 
 .messeage{
-position: fixed;       /* 画面に固定 */      
+position: fixed;            
   left: 80%;            
-  transform: translateX(-50%); /* 水平方向に中央揃え */
+  transform: translateX(-50%); 
 
 }
 .submitted-messege{
@@ -71,6 +72,7 @@ position: fixed;       /* 画面に固定 */
     background-color: #ffffff;
     border-radius: 10px;
     display: flex;
+    text-align: center;
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     align-self: flex-start;
