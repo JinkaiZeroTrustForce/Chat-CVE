@@ -15,8 +15,8 @@
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     align-self: flex-start;
- margin-left: 10px;   /* 左にくっつける */
-  margin-right: auto; /* 右に余白を取る（左寄せ） */
+ margin-left: 10px;   
+  margin-right: auto; 
   }
  
  .input-area {
@@ -64,4 +64,16 @@ position: fixed;       /* 画面に固定 */
   left: 80%;            
   transform: translateX(-50%); /* 水平方向に中央揃え */
 
+}
+.submitted-messege{
+   width: 400px;
+    max-width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    align-self: flex-start;
+ margin-right: 10px;   
+  margin-right: auto; 
 }

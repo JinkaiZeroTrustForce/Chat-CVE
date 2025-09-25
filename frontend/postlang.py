@@ -11,28 +11,29 @@ def index():
 def sendLang():#バックにurlで送る
         language = request.form.get("language")
         
-        url="http://localhost:5000/receive"#仮、5173
-        #url="http://localhost:3000/generate_question" #バック送信URL
+        url="http://localhost:5000/receive"#仮
+        #url="http://localhost:5173/generate_question" #バック送信URL
         params = {"language": language}
         #print(params)
     
-        #response = requests.post(url, params=params)
-        return render_template("/input.html")#画面遷移
-
+        response = requests.post(url, params=params)
+        return  receive()
+        #return ""
 
 @app.route("/receive", methods=["GET","POST"])#sendのあと向こうがreceiveに送ってくるはずなので受け取ってinput.html表示
 def receive():
-    #data = request.get_json()
-    #------------------------------------------------------------------------------------------------
+    #data = request.get_json()#jsonを受け取る
+    #-------------------------------------テスト用-----------------------------------------------------------
     data= {
     "level": 1,
     "language": "php",
     "source code": "```php\n<?php\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    $username = $_POST['username'];\n    $password = $_POST['password'];\n    if ($username === 'admin' && $password === 'pass123') {\n        echo \"Welcome admin!\";\n    } else {\n        echo \"Invalid credentials.\";\n    }\n}\n?>\n<form method=\"post\">\n  Username: <input name=\"username\"><br>\n  Password: <input name=\"password\" type=\"password\"><br>\n  <input type=\"submit\" value=\"Login\">\n</form>\n```",
     "answer": "$password === 'pass123'",
-    "explanation": "パスワードがコード内にハードコードされており、ソースコード漏洩やリバースエンジニアリングによって簡単に特定される。環境変数や安全な認証システムを利用すべき。"}
+    "explanation": "パスワードがコード内にハードコードされており、ソースコード漏洩やリバースエンジニアリングによって簡単に特定される。環境変数や安全な認証システムを利用すべき。"
+    }
     
-    level = data.get("level")
-    question = data.get("source code")
+    level = data.get("level",data.get("level", ""))
+    question = data.get("source code",data.get("source code", ""))
     answer = data.get("answer")
     explanation = data.get("explanation")
     #------------------------------------回答と説明をansewerに送信------------------------------------------------------------
@@ -45,18 +46,22 @@ def receive():
 
 @app.route("/input", methods=["GET","POST"])
 def input():#入力された情報をバックに送る、
-
+    level = request.form.get("level")
+    question = request.form.get("question")
     input1 = request.form['where']
     input2 = request.form['why']
+    url="http://localhost:5000/debug"
+    #url="http://localhost:5173/generate_question" #バック送信URL
+
 
     if(input1 and input2):
-        url="http://localhost:5000/debug"
-        #url="http://localhost:3000/generate_question" #バック送信URL
-
+       
         params = {"where": input1,"why":input2}
-        response = requests.post(url, params=params)#jsonで送りたいよね
-    return render_template("/answer.html",where=input1, why=input2)#デバッグ用だからいらん
-    #return ""#本来はこれ
+       #response = requests.post(url, params=params)#バックにjson
+            
+       
+    #return render_template("/answer.html",where=input1, why=input2)#デバッグ用だからいらん
+    return render_template("/input.html",level=level,question=question)
 
 
 @app.route("/debug", methods=["GET","POST"])#デバッグ用
