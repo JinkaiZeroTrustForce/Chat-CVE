@@ -1,0 +1,14 @@
+
+.answered-messege{
+   width: 400px;
+    max-width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    align-self: flex-start;
+ margin-right: 10px;   
+  margin-right: auto; 
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat-CVE</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/log.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div class="chat-container">
+  <div class="chat-messages" id="chat-messages">
+    <div class="message"><p>LEVEL:{{level}}</p></div><!--レベルの表示-->
+    <div class="message"><p> {{ question }}</p></div><!--問題の表示-->
+  </div>
+</div>
+
+
+ <div class="submitted-messege"> 
+    <p>{{where}}</p>
+    <p>{{why}}</p>
+  </div>
+
+
+  <div class="input-area">
+   
+    <div class-"button-area">
+     <button type="submit" class="btn btn-primary mb-3">ホーム画面に戻る</button>
+    </div>
+      </form>
+  </div>
+
+  <h2>送信した params</h2>
+  <ul id="paramsList"></ul>
+
+  <script>
+    const LOG_URL = "http://localhost:5000/log"; // Flask 側のエンドポイント
+    const paramsList = document.getElementById("paramsList");
+    const form = document.getElementById("sendForm");
+
+    let sentParams = [];
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fd = new FormData(form);
+      const params = Object.fromEntries(fd.entries());
+
+      // 5回送る
+      for(let i=0; i<5; i++){
+        await postToServer(params);
+        sentParams.push({...params, index:i+1});
+      }
+
+      renderList();
+    });
+
+    async function postToServer(params){
+      // Flask 側が request.form を期待してるなら URLSearchParams を送る
+      const body = new URLSearchParams(params).toString();
+      try {
+        await fetch(LOG_URL, {
+          method: "POST",
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          body
+        });
+      } catch(err){
+        console.error("送信失敗:", err);
+      }
+    }
+
+    function renderList(){
+      paramsList.innerHTML = "";
+      sentParams.forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = `[${p.index}] level=${p.level}, question=${p.question}, where=${p.where}, why=${p.why}`;
+        paramsList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
+  
+
+</body>
+</html>

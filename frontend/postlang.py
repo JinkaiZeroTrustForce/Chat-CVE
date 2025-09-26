@@ -50,29 +50,67 @@ def input():#入力された情報をバックに送る、
     question = request.form.get("question")
     input1 = request.form['where']
     input2 = request.form['why']
-    url="http://localhost:5000/debug"
     #url="http://localhost:5173/generate_question" #バック送信URL
+    urlLog="http://localhost:5000/log"
+    #url="http://localhost:5000/debug"#デバッグ用
 
 
     if(input1 and input2):
         params = {"where": input1,"why":input2}
+        paramsLog = {"level": level,"question": question,"where": input1,"why":input2}
+        responseLog = requests.post(urlLog, params=paramsLog)#ログに送信
        #response = requests.post(url, params=params)#バックにjson
        
     #return render_template("/answer.html",where=input1, why=input2)#デバッグ用だからいらん
+
     return render_template("/input.html",level=level,question=question)
 
 
-@app.route("/debug", methods=["GET","POST"])#デバッグ用
+@app.route("/answer", methods=["GET","POST"])#回答、
+def answer():
+     #見本データ{
+     #"total_score": 86,
+  #"grade": "Advanced",
+  #"per_item": [
+# {
+    #  "index": 1,
+    # "level": "Easy",
+    #"position_score": 0.9,
+    #"reason_score": 0.8,
+    #"weighted_score": 8.6,
+    #"feedback": "基本的な知識は十分にありますが、説明がやや簡潔です。より具体的な根拠も述べましょう。"
+#},
+#--------------------------------------------------------------------------------
+    data = request.get_json()#バックからスコアなどを受け取る
+   
+    level = request.form.get("level")
+    question = request.form.get("question")
+    answer = request.form.get("answer")
+    explanation = request.form.get("explanation")
+    point = data.get("total_score",data.get("total_score", ""))
+    feeback=data.get("per_item",data.get("per_item", "")  ) 
+
+    if(level==5):
+        return render_template("/log.html")#log.htmlに問題、レベル、answer、explanation、point、feedbackとか適当に送る
+    
+    return render_template("/input.html",level=level,question=question,total_score=point,feeback=feeback)
+
+
+
+
+@app.route("/log", methods=["GET","POST"])#回答、
+def log():
+
+
+    return ""
+
+@app.route("/debug", methods=["GET","POST"])#デバッグ用、書かない
 def debug():
 
 
     return ""
 
-@app.route("/answer", methods=["GET","POST"])#回答、
-def answer():
 
-
-    return ""
 
 
 if __name__ == "__main__":
