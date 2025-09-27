@@ -54,17 +54,16 @@ def input():#入力された情報をバックに送る、
     urlLog="http://localhost:5000/log"
     #url="http://localhost:5000/debug"#デバッグ用
 
-
     if(input1 and input2):
         params = {"where": input1,"why":input2}
         paramsLog = {"level": level,"question": question,"where": input1,"why":input2}
-        responseLog = requests.post(urlLog, params=paramsLog)#ログに送信
+        responseLog = requests.post(urlLog, params=paramsLog)#ログに送信,デバッグ用
+        
        #response = requests.post(url, params=params)#バックにjson
-       
+        return  answer()
     #return render_template("/answer.html",where=input1, why=input2)#デバッグ用だからいらん
 
     return render_template("/input.html",level=level,question=question)
-
 
 @app.route("/answer", methods=["GET","POST"])#回答、
 def answer():
@@ -74,7 +73,7 @@ def answer():
   #"per_item": [
 # {
     #  "index": 1,
-    # "level": "Easy",
+    # "level": "5",
     #"position_score": 0.9,
     #"reason_score": 0.8,
     #"weighted_score": 8.6,
@@ -85,17 +84,16 @@ def answer():
    
     level = request.form.get("level")
     question = request.form.get("question")
-    answer = request.form.get("answer")
-    explanation = request.form.get("explanation")
     point = data.get("total_score",data.get("total_score", ""))
     feeback=data.get("per_item",data.get("per_item", "")  ) 
+    answer = request.form.get("answer")#受け取れないようだったらrequest.args.get("answer")
+    explanation = request.form.get("explanation")#受け取れないようだったらrequest.args.get
+    
 
     if(level==5):
-        return render_template("/log.html")#log.htmlに問題、レベル、answer、explanation、point、feedbackとか適当に送る
+        return render_template("/log.html")#五問解き終わったらlog.htmlに問題、レベル、answer、explanation、point、feedbackとか適当に送る
     
-    return render_template("/input.html",level=level,question=question,total_score=point,feeback=feeback)
-
-
+    return render_template("/input.html",level=level,question=question,total_score=point,feeback=feeback,answer=answer,explanation=explanation)#inputに反映
 
 
 @app.route("/log", methods=["GET","POST"])#回答、
