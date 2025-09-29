@@ -9,51 +9,43 @@
 </head>
 <body>
 
-
 <div class="chat-container">
   <div class="chat-messages" id="chat-messages">
-    <div class="message"><p>LEVEL:{{level}}</p></div><!--レベルの表示-->
-    <div class="message"><p> {{ question }}</p></div><!--問題の表示-->
+    <div class="message"><p>LEVEL:{{level}}</p></div>
+    <div class="message"><p>{{ question }}</p></div>
   </div>
 </div>
 
-  <div id="result"></div>
+<div id="result">
+  {% if show_answer and answer %}
+    <div class="submitted-messege">
+      <p>あなたの回答:</p>
+      <p>{{ request.form.get('where', '') }}</p>
+      <p>{{ request.form.get('why', '') }}</p>
+      <hr>
+      <p>模範解答: {{ answer }}</p>
+      <p>解説: {{ explanation }}</p>
+      <form method="get" action="{{ url_for('next_question') }}">
+        <button type="submit" class="btn btn-success">次の問題へ</button>
+      </form>
+    </div>
+  {% endif %}
+</div>
 
-
+{% if not show_answer %}
   <div class="input-area">
     <form class="row g-3"  action="/input" method="post"  id="myForm">
       <input type="text" name="where" class="form-control" id="exampleFormControlInput1" placeholder="どこのコードが脆弱性を持っているか">
       <input type="text" name="why" class="form-control" id="exampleFormControlInput2" placeholder="どのような脆弱性か">
       <input type="hidden" name="level" value="{{ level }}">
       <input type="hidden" name="question" value="{{ question }}">
-    
-    <div class-"button-area">
-     <button type="submit" class="btn btn-primary mb-3">送信</button>
-    </div>
-      </form>
+      <div class-"button-area">
+        <button type="submit" class="btn btn-primary mb-3">送信</button>
+      </div>
+    </form>
   </div>
+{% endif %}
 
-<script>
-document.getElementById("myForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  let whereInput = document.getElementById("exampleFormControlInput1").value;
-  let whyInput = document.getElementById("exampleFormControlInput2").value;
-
-  document.getElementById("result").innerHTML = `
-  <div class="submitted-messege"> 
-    <p>${whereInput}</p>
-    <p>${whyInput}</p>
-  </div>
-    `;
-});
-<p>
-  total_score:{{ total_score }}
-  feedback:{{ feeback }} 
-  answer:{{ answer }}
-  explanation:{{ explanation }}
-  </p>
-</script>
-  
 
 </body>
 </html>
