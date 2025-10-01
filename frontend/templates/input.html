@@ -8,30 +8,30 @@
 <link href="../static/input.css" rel="stylesheet">
 </head>
 <body>
-
+  <div class="  chat-wrapper">
 <div class="chat-container">
   <div class="chat-messages" id="chat-messages">
     <div class="message"><p>LEVEL:{{level}}</p></div>
     <div class="message"><p>{{ question }}</p></div>
   </div>
 </div>
-
-<div id="result">
   {% if show_answer and answer %}
     <div class="submitted-messege">
       <p>あなたの回答:</p>
       <p>{{ request.form.get('where', '') }}</p>
       <p>{{ request.form.get('why', '') }}</p>
-      <hr>
-      <p>模範解答: {{ answer }}</p>
-      <p>解説: {{ explanation }}</p>
+    </div>
+      <!--いじるとしたらここ-->
+      <div class="answer">
+        <p>模範解答: {{ answer }}</p>
+        <p>解説: {{ explanation }}</p>
+      </div>
+      <!--  次の問題へのUIをどうにかする -->
       <form method="get" action="{{ url_for('next_question') }}">
         <button type="submit" class="btn btn-success">次の問題へ</button>
       </form>
-    </div>
+  </div>
   {% endif %}
-</div>
-
 {% if not show_answer %}
   <div class="input-area">
     <form class="row g-3"  action="/input" method="post"  id="myForm">
@@ -45,7 +45,5 @@
     </form>
   </div>
 {% endif %}
-
-
 </body>
 </html>

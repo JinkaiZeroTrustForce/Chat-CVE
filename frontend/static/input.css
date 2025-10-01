@@ -1,81 +1,102 @@
-
-  body {
+body {
     font-family: Arial, sans-serif;
-    background-color: #f6f6f6;
-    display: flex;
-    justify-content: center;
+    background-color: #F6F6F6;
+    margin: 0;
     padding: 20px;
-  }
-  .chat-container {/*ここ*/
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+/* チャット全体のラッパー */
+.chat-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 上中下に均等配置 */
+    min-height: 70vh;               /* 画面高さに応じて */
+    width: 100%;                     /* 横幅いっぱい */
+    max-width: 100%;                 /* 端まで寄せる */
+    padding: 0;                      /* 左右余白をなくす */
+    box-sizing: border-box;
+}
+/* 左上 */
+.chat-container {
+    align-self: flex-start;          /* 左端に寄せる */
     width: fit-content;
-    max-width: 100%;
-    background-color: #ffffff;
+    max-width: 70%;
+    background-color: #FFFFFF;
     border-radius: 10px;
-    display: flex;
     text-align: center;
-    flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    align-self: flex-start;
- margin-left: 10px;   
-  margin-right: auto; 
-  }
- 
- .input-area {
-  position: fixed;       /* 画面に固定 */
-  bottom: 20px;          /* 下から20px */
-  left: 50%;             /* 中央寄せ */
-  transform: translateX(-50%); /* 水平方向に中央揃え */
-  
-  background: white;     /* 背景色 */
-  padding: 10px 15px;    /* 余白 */
-  border-radius: 12px;   /* 角丸 */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* 影で浮かせる */
+    padding: 10px;
 }
-
-.form-container form {
-  display: flex;
-  gap: 10px;
-}
-
-.form-container input {
-  flex: 1;              
-  padding: 8px;
-  border: 1px solid #ccc;
-}
-
-.form-container button {
-  padding: 8px 12px;
-  border: none;
-  background: #007bff;
-  color: white;
-  cursor: pointer;
-}
-
-.form-container button:hover {
-  background: #0056b3;
-}
-.button-area{
-  position: fixed;       /* 画面に固定 */
-  left: 50%;             /* 中央寄せ */
-  margin-top: 10px;      /* 上に余白 */
-}
-
-.messeage{
-position: fixed;            
-  left: 80%;            
-  transform: translateX(-50%); 
-
-}
-.submitted-messege{/*ここ*/
-   width: fit-content;
-    max-width: 100%;
-    background-color: #ffffff;
+/* 右中段 */
+.submitted-messege {
+    align-self: flex-end;            /* 右端に寄せる */
+    width: fit-content;
+    max-width: 70%;
+    background-color: #FFFFFF;
     border-radius: 10px;
-    display: flex;
     text-align: center;
-    flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    align-self: flex-start;
- margin-right: 10px;   
-  margin-right: auto; 
+    padding: 10px;
+}
+/* 左下 */
+.answer {
+    align-self: flex-start;          /* 左端に寄せる */
+    width: fit-content;
+    max-width: 70%;
+    background-color: #F0F8FF;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 10px;
+}
+/* 入力エリアを画面下に固定 */
+.input-area {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #FFFFFF;
+    padding: 10px 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: flex;
+    gap: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+.input-area input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.input-area button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.input-area button:hover {
+    background-color: #0056B3;
+}
+/* スマホ対応 */
+@media (max-width: 480px) {
+    .chat-container,
+    .submitted-messege,
+    .answer {
+        max-width: 95%;
+        font-size: 14px;
+    }
+    .input-area {
+        width: 95%;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .input-area button {
+        width: 100%;
+    }
 }
