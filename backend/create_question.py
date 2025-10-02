@@ -41,10 +41,10 @@ def create_questions(language: str):
 - 配列の各要素は以下5項目を必ず含むこと:
   - "level"（1〜5の整数）
   - "language"（使用言語）
-  - "source code"（実行可能なプログラムのコードブロッックのmarkdown形式の文字列。```言語\\n...\\n``` 形式）
+  - "source_code"（実行可能なプログラムのコードブロッックのmarkdown形式の文字列。```言語\\n...\\n``` 形式）
   - "answer"（脆弱な箇所を具体的に。）
   - "explanation"（原因・攻撃可能性・影響・修正方針を簡潔に）
-- "source code" は **おおよそ20行前後（±5行以内）**、かつ**実行可能**な小さなプログラムにすること。
+- "source_code" は **おおよそ20行前後（±5行以内）**、かつ**実行可能**な小さなプログラムにすること。
 - 一見正常に動くが、どこかにセキュリティ上の問題を潜ませること。
 - 脆弱性なし問題を混ぜてもよい（その場合は "answer": "なし" とする）。
 - 必ず **有効なJSON** を返し、余計なテキストを一切含めないこと。
@@ -63,7 +63,7 @@ def evaluate_result(evaluation_request):
 あなたはセキュリティ教育用の自動採点器です。
 
 入力:
-- envaluation_request: 出題時のJSON配列（各要素は "level","language","source code","answer","explanation" を含む）とユーザの回答（"user_answer","user_explanation" を含む）を結合したJSON配列文字列。
+- envaluation_request: 出題時のJSON配列（各要素は "level","language","source_code","answer","explanation" を含む）とユーザの回答（"user_answer","user_explanation" を含む）を結合したJSON配列文字列。
 
 採点:
 - 各問題のスコア = 位置特定(0〜1)*0.6 + 理由説明(0〜1)*0.4
