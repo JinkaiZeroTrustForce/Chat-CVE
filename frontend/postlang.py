@@ -1,117 +1,86 @@
-from flask import Flask, render_template, request
-import requests,jsonify
-
+from flask import Flask, render_template, request, redirect, url_for
+import requests
 app = Flask(__name__)
-
+global_questions = []
+global_index = 0
+user_answers = []
 @app.route("/")
 def index():
     return render_template("start.html")
-
 @app.route("/sendLang", methods=["POST"])
-def sendLang():#バックにurlで送る
-        language = request.form.get("language")
+def sendLang():
+    global global_questions, global_index, user_answers
+    #global_questionsが受け取ったjson
+    #global_indexが現在の問題番号
+    #user_answersがユーザの入力
+    language = request.form.get("language")
+    #url="http://localhost:5000/next_question"#仮
+#正規プログラム
+    url = "http://localhost:5173/generate_question"
+    params = {"language": language}
+    response = requests.post(url, params=params)
+    global_questions = response.json()
+    global_index = 0
+    user_answers = []
+    # 最初の問題へ進む（GETで）
+    return redirect(url_for('next_question'))
+@app.route("/next_question", methods=["GET"])
+def next_question():
+    global global_questions, global_index#正規
+    if global_index >= len(global_questions):#正規
+        return redirect(url_for('log'))#正規
+    res = global_questions[global_index]#正規
+    #level="1"#仮
+    #question="問題文"#仮
+    level = res.get("level")#正規はこれ
+    question = res.get("source_code", "")#正規はこれ
+    # 回答前なので answer/explanation なし
+    return render_template(
+        "/input.html",
+        level=level, question=question,
+        answer="", explanation="",
+        show_answer=False,
+        total_score="", feeback=""
+    )
+@app.route("/input", methods=["GET", "POST"])
+def input():
+    global global_questions, global_index, user_answers
+    if request.method == "POST":
+        # 回答情報取得
+        input1 = request.form.get('where')
+        input2 = request.form.get('why')
+        level = request.form.get("level")
+        question = request.form.get("question")
+        # 現在の問題取得＆保存
+        res = global_questions[global_index]#正規
+        #res="回答文"#仮
         
-        url="http://localhost:5000/receive"#仮
-        #url="http://localhost:5173/generate_question" #バック送信URL
-        params = {"language": language}
-        #print(params)
-    
-        response = requests.post(url, params=params)
-        return  receive()
-        #return ""
+        answer = res.get("answer", "")#正規
+        #answer="模範解答"#仮
+        explanation = res.get("explanation", "")#正規
+        #explanation="解説文"#仮
 
-@app.route("/receive", methods=["GET","POST"])#sendのあと向こうがreceiveに送ってくるはずなので受け取ってinput.html表示
-def receive():
-    #data = request.get_json()#jsonを受け取る
-    #-------------------------------------テスト用-----------------------------------------------------------
-    data= {
-    "level": 1,
-    "language": "php",
-    "source code": "```php\n<?php\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    $username = $_POST['username'];\n    $password = $_POST['password'];\n    if ($username === 'admin' && $password === 'pass123') {\n        echo \"Welcome admin!\";\n    } else {\n        echo \"Invalid credentials.\";\n    }\n}\n?>\n<form method=\"post\">\n  Username: <input name=\"username\"><br>\n  Password: <input name=\"password\" type=\"password\"><br>\n  <input type=\"submit\" value=\"Login\">\n</form>\n```",
-    "answer": "$password === 'pass123'",
-    "explanation": "パスワードがコード内にハードコードされており、ソースコード漏洩やリバースエンジニアリングによって簡単に特定される。環境変数や安全な認証システムを利用すべき。"
-    }
-    
-    level = data.get("level",data.get("level", ""))
-    question = data.get("source code",data.get("source code", ""))
-    answer = data.get("answer")
-    explanation = data.get("explanation")
-    
-    input(level=level,question=question,answer=answer,explanation=explanation)
-    return render_template("/input.html",level=level,question=question) #input.htmlにレベル、問題、模範解答、模範解説を送る
-
-@app.route("/input", methods=["GET","POST"])
-def input():#入力された情報をバックとlogに送る、
-    explanation=explanation
-    answer=answer
-    level = request.form.get("level")
-    question = request.form.get("question")
-    input1 = request.form['where']
-    input2 = request.form['why']
-   
-    #url="http://localhost:5173/generate_question" #バック送信URL
-    urlLog="http://localhost:5000/log"
-    url="http://localhost:5000/debug"#デバッグ用
-
-    if(input1 and input2):
-        params = {"where": input1,"why":input2}
-        #paramsLog = {"level": level,"question": question,"where": input1,"why":input2}
-        #responseLog = requests.post(urlLog, params=paramsLog)#ログに送信,デバッグ用
-        
-        response = requests.post(url, params=params)#バックにjson
-        answer()
-        return   render_template("/input.html",level=level,question=question,answer=answer,explanation=explanation)
-    #return render_template("/answer.html",where=input1, why=input2)#デバッグ用だからいらん
-
-    return render_template("/input.html",level=level,question=question,where=input1, why=input2)
-
-@app.route("/answer", methods=["GET","POST"])#回答、
-def answer():
-     #見本データ{
-     #"total_score": 86,
-  #"grade": "Advanced",
-  #"per_item": [
-# {
-    #  "index": 1,
-    # "level": "5",
-    #"position_score": 0.9,
-    #"reason_score": 0.8,
-    #"weighted_score": 8.6,
-    #"feedback": "基本的な知識は十分にありますが、説明がやや簡潔です。より具体的な根拠も述べましょう。"
-#},
-#--------------------------------------------------------------------------------
-    data = request.get_json()#バックからスコアなどを受け取る
-
-    level = request.form.get("level")
-    question = request.form.get("question")
-    point = data.get("total_score",data.get("total_score", ""))
-    feeback=data.get("per_item",data.get("per_item", "")  ) 
-    answer = request.form.get("answer")#受け取れないようだったらrequest.args.get("answer")
-    explanation = request.form.get("explanation")#受け取れないようだったらrequest.args.get
-    #バックからのjsonでanswerとexplanation受け取れたほうが嬉しいかも
-
-    if(level==5):
-        return render_template("/log.html")#五問解き終わったらlog.htmlに問題、レベル、answer、explanation、point、feedbackとか適当に送る
-    
-    return render_template("/answer.html",level=level,question=question,total_score=point,feeback=feeback,answer=answer,explanation=explanation)#inputに反映
-    #return render_template("/input.html",level=level,question=question,total_score="a",feeback="b",answer=answer,explanation=explanation)#inputに反映
-
-
-@app.route("/log", methods=["GET","POST"])#回答、
+        user_answers.append({
+            "where": input1, "why": input2,
+            "level": level, "question": question
+        })
+        global_index += 1
+        # 模範解答の表示＋「次へ」ボタン
+        return render_template(
+            "/input.html",
+            level=level, question=question,
+            answer=answer, explanation=explanation,
+            show_answer=True, total_score="", feeback=""
+        )
+    # GETの場合は次の問題へ
+    return redirect(url_for('next_question'))
+@app.route("/log", methods=["GET"])
 def log():
-
-
-    return sendLang()
-
-@app.route("/debug", methods=["GET","POST"])#デバッグ用、書かない
-def debug():
-
-
-    return ""
-
-
-
+    #global user_answers #したがダメだったら戻す
+    global global_questions, global_index, user_answers
+    
+    
+    return render_template("/log.html", global_questions, global_index, user_answers)
 
 if __name__ == "__main__":
-     app.run(debug=True)
-                                  
+    app.run(debug=True)
