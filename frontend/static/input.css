@@ -17,6 +17,11 @@ body {
     padding: 0;                      /* 左右余白をなくす */
     box-sizing: border-box;
 }
+
+#markdown-view {
+    text-align: left;
+}
+
 /* 左上 */
 .chat-container {
     align-self: flex-start;          /* 左端に寄せる */

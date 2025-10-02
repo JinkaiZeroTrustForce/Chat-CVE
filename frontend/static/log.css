@@ -20,6 +20,11 @@ body {
     padding: 20px 24px;
     text-align: center;             /* テキストも中央寄せ */
 }
+
+#markdown-view {
+    text-align: left;
+}
+
 .submitted-messege,
 .answer {
     /* もし親の中央のままにしたい場合、独自幅は指定なしでOK */

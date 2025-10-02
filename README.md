@@ -6,5 +6,5 @@
 $ cd backend/
 $ pip install -r requirements.txt
 $ echo "OPEN_API_KEY=あなたのAPI_KEY" > .env
-$ uvicorn main:app --port 3000
+$ uvicorn main:app --port 5173
 ```

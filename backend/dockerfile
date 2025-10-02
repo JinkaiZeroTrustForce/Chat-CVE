@@ -1,0 +1,18 @@
+# Python 3.13.7 ベースイメージ (2024/6時点で3.13.0まで公開、3.13.7はまだです)
+# 公式イメージは python:3.13-slim など
+FROM python:3.13.0-slim
+
+# 作業ディレクトリ作成
+WORKDIR /app
+
+# requirements.txt 先にコピーして依存だけ先インストール（キャッシュ有効化のため）
+COPY requirements.txt .
+
+# 依存パッケージインストール
+RUN pip install --no-cache-dir -r requirements.txt
+
+# アプリ本体をコピー
+COPY . .
+
+# コンテナ起動時に自動でサーバーを立てる
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5173"]
