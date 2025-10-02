@@ -6,97 +6,53 @@ body {
     min-height: 100vh;
     box-sizing: border-box;
 }
-/* チャット全体のラッパー */
-.chat-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* 上中下に均等配置 */
-    min-height: 70vh;               /* 画面高さに応じて */
-    width: 100%;                     /* 横幅いっぱい */
-    max-width: 100%;                 /* 端まで寄せる */
-    padding: 0;                      /* 左右余白をなくす */
+
+.chat-container,
+.input-area {
+    margin: 40px auto 0 auto;      /* ←中央寄せ。下にボタンならmargin-top小さめでもOK */
+    width: 90%;
+    max-width: 700px;
+    /* 必要なら高さ指定外す */
     box-sizing: border-box;
-}
-/* 左上 */
-.chat-container {
-    align-self: flex-start;          /* 左端に寄せる */
-    width: fit-content;
-    max-width: 70%;
     background-color: #FFFFFF;
     border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px 24px;
+    text-align: center;             /* テキストも中央寄せ */
 }
-/* 右中段 */
-.submitted-messege {
-    align-self: flex-end;            /* 右端に寄せる */
-    width: fit-content;
-    max-width: 70%;
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 10px;
-}
-/* 左下 */
+.submitted-messege,
 .answer {
-    align-self: flex-start;          /* 左端に寄せる */
-    width: fit-content;
-    max-width: 70%;
+    /* もし親の中央のままにしたい場合、独自幅は指定なしでOK */
+    margin-top: 20px;
     background-color: #F0F8FF;
     border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    padding: 12px;
     text-align: left;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 10px;
 }
-/* 入力エリアを画面下に固定 */
+
 .input-area {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #FFFFFF;
-    padding: 10px 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+    padding: 14px 20px;
     display: flex;
+    justify-content: center;        /* フォームやボタン中央に */
     gap: 10px;
-    width: 90%;
-    max-width: 600px;
-    box-sizing: border-box;
 }
-.input-area input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
+
 .input-area button {
-    padding: 8px 12px;
-    border: none;
-    background-color: #007BFF;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
+    /* ここは中央配置されているので何もしなくてOK */
 }
-.input-area button:hover {
-    background-color: #0056B3;
-}
-/* スマホ対応 */
+
 @media (max-width: 480px) {
     .chat-container,
-    .submitted-messege,
-    .answer {
-        max-width: 95%;
+    .input-area {
+        width: 98%;
+        max-width: 98%;
         font-size: 14px;
+        padding: 8px;
     }
     .input-area {
-        width: 95%;
         flex-direction: column;
-        gap: 5px;
-    }
-    .input-area button {
-        width: 100%;
+        gap: 8px;
     }
 }

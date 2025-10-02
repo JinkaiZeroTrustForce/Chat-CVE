@@ -8,24 +8,25 @@
 <link href="../static/log.css" rel="stylesheet">
 </head>
 <body>
-  {% for i in range(global_index) %}
-     <div class="chat-container">
-  <div class="chat-messages" id="chat-messages">
-      <p><strong>LEVEL: {{ i }}</strong></p>
-      <p><strong>問題:</strong> {{ global_questions[i].question }}</p>
-      <hr>
-  </div>
-  <div class="submitted-messege"><!--ここのhtmlは使いまわすので-->
-   <p><strong>あなたの回答:</strong></p>
-      <p>WHERE: {{ user_answer[i].where }}</p>
-      <p>WHY: {{ user_answer[i].why }}</p>
-      <hr>
-</div>
-<div class="answer">
+  <div class="chat-container">
+    {% for i in range(global_index) %}
+      <div class="chat-messages" id="chat-messages">
+        <p><strong>LEVEL: {{ i }}</strong></p>
+        <p><strong>問題:</strong> <textarea id="markdown" rows="10" cols="50"> {{ global_questions[i].source_code }}</textarea> </p>
+        <hr>
+      </div>
+    <div class="submitted-messege"><!--ここのhtmlは使いまわすので-->
+      <p><strong>あなたの回答:</strong></p>
+        <p>WHERE: {{ user_answers[i].where }}</p>
+        <p>WHY: {{ user_answers[i].why }}</p>
+        <hr>
+    </div>
+    <div class="answer">
       <p><strong>模範解答:</strong> {{ global_questions[i].answer }}</p>
       <p><strong>解説:</strong> {{ global_questions[i].explanation }}</p>
-</div>
+    </div>
       {% endfor %}
+  </div>
   <div class="input-area">
     <div class-"button-area">
       </form>
@@ -33,45 +34,6 @@
     </div>
       </form>
   </div>
-  <ul id="paramsList"></ul>
-  <script>
-    const LOG_URL = "http://localhost:5000/log"; // Flask 側のエンドポイント
-    const paramsList = document.getElementById("paramsList");
-    const form = document.getElementById("sendForm");
-    let sentParams = [];
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const fd = new FormData(form);
-      const params = Object.fromEntries(fd.entries());
-      // 5回送る
-      for(let i=0; i<5; i++){
-        await postToServer(params);
-        sentParams.push({...params, index:i+1});
-      }
-      renderList();
-    });
-    async function postToServer(params){
-      // Flask 側が request.form を期待してるなら URLSearchParams を送る
-      const body = new URLSearchParams(params).toString();
-      try {
-        await fetch(LOG_URL, {
-          method: "POST",
-          headers: {"Content-Type": "application/x-www-form-urlencoded"},
-          body
-        });
-      } catch(err){
-        console.error("送信失敗:", err);
-      }
-    }
-    function renderList(){
-      paramsList.innerHTML = "";
-      sentParams.forEach(p => {
-        const li = document.createElement("li");
-        li.textContent = `[${p.index}] level=${p.level}, question=${p.question}, where=${p.where}, why=${p.why}`;
-        paramsList.appendChild(li);
-      });
-    }
-  </script>
 </body>
 </html>
 </body>

@@ -14,6 +14,7 @@ def sendLang():
     #global_indexが現在の問題番号
     #user_answersがユーザの入力
     language = request.form.get("language")
+    print(language)
     #url="http://localhost:5000/next_question"#仮
 #正規プログラム
     url = "http://localhost:5173/generate_question"
@@ -80,7 +81,9 @@ def log():
     global global_questions, global_index, user_answers
     
     
-    return render_template("/log.html", global_questions, global_index, user_answers)
+    
+    
+    return render_template("/log.html", global_questions=global_questions, global_index=global_index, user_answers=user_answers)
 
 if __name__ == "__main__":
     app.run(debug=True)
